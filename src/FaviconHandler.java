@@ -23,15 +23,30 @@ public class FaviconHandler implements HttpHandler {
         OutputStream response = httpExchange.getResponseBody(); // response for the request should be written to this stream.
 
         File icon = new File(root+httpExchange.getRequestURI().getPath()); // create a new File object from the icon that should bw sent.
-        httpExchange.getResponseHeaders().set("Content-Type", "image/x-icon");  // set the content type of the response.
 
-        try {
-            httpExchange.sendResponseHeaders(200, icon.length()); // send the response headers.
-            Files.copy(icon.toPath(), response);    // directly pass the icon to the response outputstream.
-            response.flush(); // flush the data and
-            response.close(); // close the stream.
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        if (icon.exists()) {
+            httpExchange.getResponseHeaders().set("Content-Type", "image/x-icon");  // set the content type of the response.
+
+            try {
+                httpExchange.sendResponseHeaders(200, icon.length()); // send the response headers.
+                Files.copy(icon.toPath(), response);    // directly pass the icon to the response outputstream.
+                response.flush(); // flush the data and
+                response.close(); // close the stream.
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else {
+            String error_msg = "Warning: Couldn't locate resource icons/favicon.ico";
+            System.out.println(error_msg);
+            try {
+                httpExchange.sendResponseHeaders(404, error_msg.length()); // send the response headers.
+                response.write(error_msg.getBytes());   // write the error message to the outputstream.
+                response.flush(); // flush the data and
+                response.close(); // close the stream.
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }
