@@ -46,22 +46,29 @@ public class MainHttpHandler implements HttpHandler {
             // cannot find a valid index file
             else {
                 // sends an error message to the client.
+                System.out.println("Error: Couldn't locate an index file.");
+                String error_msg = "<html><body><h2>404 Not Found : Couldn't locate an index file</h2></body></html>";
 
+                createErrorResponse(httpExchange, error_msg);
             }
         }
 
         // the request is for a specific resource.
         else {
-            // requested resource is a php file.
-            if (requestPath.endsWith(".php")) {
-                // interpret the php file and then serve it.
-                createResponse(httpExchange, root+requestPath, true);
+            // first check whether the requested resource exists or not.
+
+            // file exists
+            if (Files.exists(Paths.get(root+requestPath))){
+                // create the response with the requested resource.
+                createResponse(httpExchange, root+requestPath, requestPath.endsWith(".php"));
             }
-            // request any other file (html, js, css)
+            // requested resource doesn't exists
             else {
-                // serve the requested file.
-                createResponse(httpExchange, root+requestPath, false);
+                System.out.println("Error: Couldn't locate resource " + root+requestPath);
+                String error_msg = String.format("<html><body><h2>404 Not Found : Couldn't locate resource %s </h2></body></html>", root+requestPath);
+                createErrorResponse(httpExchange, error_msg);
             }
+
         }
     }
 
@@ -79,6 +86,10 @@ public class MainHttpHandler implements HttpHandler {
         // the requested resource doesn't exist.
         else {
             // send an error message as the response.
+            System.out.println("Error: Couldn't locate an index file.");
+            String error_msg = "<html><body><h2>404 Not Found : Couldn't locate an index file</h2></body></html>";
+
+            createErrorResponse(httpExchange, error_msg);
         }
     }
 
@@ -114,6 +125,21 @@ public class MainHttpHandler implements HttpHandler {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+
+    private void createErrorResponse(HttpExchange httpExchange, String error_msg) {
+        OutputStream response = httpExchange.getResponseBody();
+
+        try {
+            httpExchange.sendResponseHeaders(404, error_msg.length());
+            response.write(error_msg.getBytes());
+            response.flush();
+            response.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
 }
