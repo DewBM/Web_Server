@@ -17,9 +17,16 @@
         // Perform the calculation
         $sum = $num1 + $num2;
 
-        // Display the result
-        echo "<p>The sum is: <span id='sum'>$sum</span></p>";
     }
+    else if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        $num1 = $_GET["num1"];
+        $num2 = $_GET["num2"];
+
+        $sum = $num1 - $num2;
+    }
+
+    // Display the result
+    echo "<p>The sum is: <span id='sum'>$sum</span></p>";
     ?>
 
     <a href="index.html">Go Back</a>
