@@ -14,7 +14,7 @@ public class Main {
             server.createContext("/favicon.ico", new FaviconHandler()); // route all requests to resource /favicon.ico to FaviconHandler.
             server.createContext("/", new MainHttpHandler()); // all other requests are handled by the MainHttpHandler.
             server.start(); // start the server.
-            
+
             System.out.println("Server is listening on " + address + ":"+port);
         } catch (IOException e) {
             System.out.println(e.getMessage());
