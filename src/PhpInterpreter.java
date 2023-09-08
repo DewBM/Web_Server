@@ -82,13 +82,13 @@ public class PhpInterpreter {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
 
         Map<String, String> env = processBuilder.environment();
-        env.put("CONTENT_LENGTH", this.contentLength);
         env.put("REQUEST_METHOD", method);
         env.put("GATEWAY_INTERFACE", "CGI/1.1");
         env.put("REDIRECT_STATUS",  "true");
         env.put("SCRIPT_FILENAME", filename);
 
         if (this.method.equals("POST")) {
+            env.put("CONTENT_LENGTH", this.contentLength);
             env.put("CONTENT_TYPE", contentType);
         }
 
