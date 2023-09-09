@@ -49,8 +49,10 @@ public class PhpInterpreter {
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(phpProcess.getOutputStream()));
         try {
-            writer.write(params);
-            writer.flush();
+            if (params!=null){
+                writer.write(params);
+                writer.flush();
+            }
             writer.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -93,7 +95,8 @@ public class PhpInterpreter {
         }
 
         else if (this.method.equals("GET")) {
-            env.put("QUERY_STRING", params);
+            if (params!=null)
+                env.put("QUERY_STRING", params);
         }
 
         Process phpProcess = null;
