@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 public class MainHttpHandler implements HttpHandler {
     private final String root = "htdocs"; // this is the folder where all the resource files are located.
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
+    public void handle(HttpExchange httpExchange) {
 
         // this server can handle only "GET" and "POST" requests.
 
