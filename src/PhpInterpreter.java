@@ -8,7 +8,7 @@ public class PhpInterpreter {
     private String params;              // the data user submitted with the request.
                                         // can be null if the request didn't contain query parameters or request body.
     private final String method;        // method of the request, "GET" or "POST".
-    private final String contentType;
+    private final String contentType;   // content type of the request body. Valid for only POST requests.
     private final String contentLength;
 
     /**
@@ -87,11 +87,15 @@ public class PhpInterpreter {
                 // we have to skip some part of the output that will be automatically prepended by CGI.
                 boolean startAppending = false; // whether the given line should be added to the response or not.
                 BufferedReader reader = new BufferedReader(new InputStreamReader(phpProcess.getInputStream())); // reader to ream from the process/
+
+                // first skip the first 3 lines of the output of php-cgi process
+                // They contain headers.
                 for (int i=0; i<3 || !reader.ready(); i++)
                     reader.readLine();
 
+                // then until the stream is empty,
                 while (reader.ready()) {
-                    result.append(reader.readLine());
+                    result.append(reader.readLine());   // read line by line and append it to the result.
                 }
             // if the exit code is not 0, there was an error.
             } else {
