@@ -26,7 +26,11 @@ public class MainHttpHandler implements HttpHandler {
             handlePostRequest(httpExchange);
     }
 
-    // as the name suggests, this method handles the get requests.
+    /**
+     * This function is invoked when a GET request is received.<br>
+     * Handles the GET request and send the appropriate response.
+     * @param httpExchange : The HttpExchange bounded to this request.
+     */
     private void handleGetRequest(HttpExchange httpExchange) {
         String requestPath = httpExchange.getRequestURI().getPath();    // get the path(file) client requested.
 
@@ -64,6 +68,7 @@ public class MainHttpHandler implements HttpHandler {
             }
             // requested resource doesn't exists
             else {
+                // send the error message as the response.
                 System.out.println("Error: Couldn't locate resource " + root+requestPath);
                 String error_msg = String.format("<html><body><h2>404 Not Found : Couldn't locate resource %s </h2></body></html>", root+requestPath);
                 createErrorResponse(httpExchange, error_msg);
@@ -72,7 +77,12 @@ public class MainHttpHandler implements HttpHandler {
         }
     }
 
-    // this method handles the post requests.
+
+    /**
+     * This function is invoked when the request is a POST request.<br>
+     * Handles the POST request and sends the appropriate response.
+     * @param httpExchange : The HttpExchange instance bounded to this request.
+     */
     private void handlePostRequest(HttpExchange httpExchange) {
         String requestPath = httpExchange.getRequestURI().getPath();
 
@@ -93,49 +103,67 @@ public class MainHttpHandler implements HttpHandler {
         }
     }
 
-    private void createResponse(HttpExchange httpExchange, String filename, boolean is_php) {
-        OutputStream response = httpExchange.getResponseBody();
 
+    /**
+     * <b>This is called only if the requested resource is found.</b>
+     * <p> Locate the requested resource within htdocs folder, interpret it if it's a php file
+     * and send the output of the php file or content of the file as the response.</p>
+     * @param httpExchange  : The HttpExchange instance bounded to this request.
+     * @param filename      : filename of the resource to serve to the client. (within htdocs folder).
+     * @param is_php        : whether the requested resource is a php file or not.
+     */
+    private void createResponse(HttpExchange httpExchange, String filename, boolean is_php) {
+        OutputStream response = httpExchange.getResponseBody(); // this is the outputstream that we should write the response to.
+
+        // the requested resource is a php file.
         if (is_php) {
-            PhpInterpreter phpInterpreter = new PhpInterpreter(httpExchange, filename);
-            String result = phpInterpreter.interpret();
+            PhpInterpreter phpInterpreter = new PhpInterpreter(httpExchange, filename); // initialize the php interpreter according to the request.
+            String result = phpInterpreter.interpret(); // interpret the requested php file and get the output.
 
             try {
-                httpExchange.sendResponseHeaders(200, result.length());
-                response.write(result.getBytes());
+                httpExchange.sendResponseHeaders(200, result.length()); // send the ok code (200) and response length as headers.
+                response.write(result.getBytes());  // write the output of the php file to response.
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
+
+        // requested resource is not a php file.
         else {
-            File fileObj = new File(filename);
-            Path path = fileObj.toPath();
+            File fileObj = new File(filename);  // open the requested resource as a File object.
+            Path path = fileObj.toPath();   // get the path of the opened file.
 
             try {
-                httpExchange.sendResponseHeaders(200, fileObj.length());
-                Files.copy(path, response);
+                httpExchange.sendResponseHeaders(200, fileObj.length()); // send the ok code(200) and response length as headers.
+                Files.copy(path, response); // copy the whole file to the response directly.
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
 
         try {
-            response.flush();
-            response.close();
+            response.flush();   // flush the data through the outputstream.
+            response.close();   // and close the file.
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
 
+    /**
+     * <b>This function is called if the requested resource cannot be located.</b>
+     * <p>Send the error Not found response to the client</p>
+     * @param httpExchange  The HttpExchange instance bounded to this request.
+     * @param error_msg     The html formatted error message that should be sent as the response.
+     */
     private void createErrorResponse(HttpExchange httpExchange, String error_msg) {
-        OutputStream response = httpExchange.getResponseBody();
+        OutputStream response = httpExchange.getResponseBody(); // this is the outputstream the response should be written to.
 
         try {
-            httpExchange.sendResponseHeaders(404, error_msg.length());
-            response.write(error_msg.getBytes());
-            response.flush();
-            response.close();
+            httpExchange.sendResponseHeaders(404, error_msg.length());  // send the Not found (404) code and response length as headers.
+            response.write(error_msg.getBytes());   // write the error message to the response.
+            response.flush();   // flush the outputstream,
+            response.close();   // close the file.
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
