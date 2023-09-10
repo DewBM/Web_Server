@@ -92,11 +92,6 @@ public class PhpInterpreter {
 
                 while (reader.ready()) {
                     result.append(reader.readLine());
-//                    if (line.equals("<!DOCTYPE html>")) // keep skipping until the beginning of the html tag is reached.
-//                        startAppending = true;
-//                    if (startAppending)
-//                        result.append(line);    // add this line to the response.
-
                 }
             // if the exit code is not 0, there was an error.
             } else {
