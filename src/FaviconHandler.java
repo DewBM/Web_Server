@@ -4,9 +4,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class FaviconHandler implements HttpHandler {
 
