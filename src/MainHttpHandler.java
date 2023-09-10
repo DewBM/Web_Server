@@ -156,7 +156,7 @@ public class MainHttpHandler implements HttpHandler {
      * @param httpExchange  The HttpExchange instance bounded to this request.
      * @param error_msg     The html formatted error message that should be sent as the response.
      */
-    private void createErrorResponse(HttpExchange httpExchange, String error_msg) {
+     private void createErrorResponse(HttpExchange httpExchange, String error_msg) {
         OutputStream response = httpExchange.getResponseBody(); // this is the outputstream the response should be written to.
 
         try {
