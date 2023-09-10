@@ -18,6 +18,12 @@ public class FaviconHandler implements HttpHandler {
         }
     }
 
+
+    /**
+     * <p>Checks whether the file icons/favicon.ico exists and if it exists, send it as the response and
+     * if it doesn't, send a warning with the status code 404.</p>
+     * @param httpExchange  The HttpExchange instance bounded to this request.
+     */
     private void createResponse(HttpExchange httpExchange) {
         String root = "icons";  // favicon is located in the "icons" folder.
         OutputStream response = httpExchange.getResponseBody(); // response for the request should be written to this stream.
