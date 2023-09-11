@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Sum Calculator</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="../styles/styles.css">
 </head>
 <body>
 <div class="container">
@@ -18,18 +18,18 @@
         $sum = $num1 + $num2;
 
     }
-    else if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        $num1 = $_GET["num1"];
-        $num2 = $_GET["num2"];
-
-        $sum = $num1 - $num2;
-    }
+//    else if ($_SERVER["REQUEST_METHOD"] == "GET") {
+//        $num1 = $_GET["num1"];
+//        $num2 = $_GET["num2"];
+//
+//        $sum = $num1 - $num2;
+//    }
 
     // Display the result
     echo "<p>The sum is: <span id='sum'>$sum</span></p>";
     ?>
 
-    <a href="index.html">Go Back</a>
+    <a href="../index.php">Go Back</a>
 </div>
 </body>
 </html>

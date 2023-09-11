@@ -2,12 +2,12 @@
 <html>
 <head>
     <title>Sum Calculator</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
 <body>
 <div class="container">
     <h1>Sum Calculator</h1>
-    <form id="calculator-form" method="post" action="addition.php">
+    <form id="calculator-form" method="post" action="php/addition.php">
         <label for="num1">Number 1:</label>
         <input type="number" id="num1" name="num1" required><br>
 
