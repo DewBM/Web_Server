@@ -16,9 +16,31 @@ This repo contains a simple web server I made with java from scratch without usi
      ```
 **If you don't have any of the above, install them before running the program.**
 
-### Guidelines
+## Guidelines
 Do the following steps to run the program.
 1. Clone this repository.
+   1. ### Windows
+      If you are in **linux** or **macOS**, skip to the step 2.  
+      1.    In **PhpInterpreter.java**, in function **createProcess(String command)** change the line 126 as follows.
+            ```java
+            env.put("SCRIPT_FILENAME", filename);
+            ``` 
+            ```java
+            env.put("SCRIPT_FILENAME", "./"+filename);
+            ```
+         2. Then open command prompt and go to the directory that contains htdocs, icons, src folders and execute the following commands.
+            ```console
+            del Webserver.jar
+            ```
+            +   The above command will delete the existing Webserver.jar file.
+            ```console
+            javac -d bin src/*.java
+            ```
+            ```console
+            jar cvfm Webserver.jar src/META-INF/MANIFEST.MF -C bin/ .
+            ```
+            + The above 2 commands will re-create the Webserver.jar file with the updated files.
+
 2. Run the jar file with the following command.
    ```console
    java -jar Webserver.jar
@@ -35,7 +57,7 @@ Do the following steps to run the program.
 6. You can change the icon shown in the tab of your web browser by changing the icon in the icons folder.  
     **The icon with the name favicon.ico will be shown in the browser.**
 
-### Source Code Review
+## Source Code Review
 + I have attached 2 [HttpHandler](https://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/HttpHandler.html) objects to the server.
    ```java
    server.createContext("/favicon.ico", new FaviconHandler()); // route all requests to resource /favicon.ico to FaviconHandler.
