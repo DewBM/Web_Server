@@ -3,6 +3,8 @@
 ## Overview
 This repo contains a simple web server I made with java from scratch without using any external libraries.
 
+**Note -: I developed this in linux OS, so it is recommended to run this in the linux OS also. But if you want to run this in windows,  follow the step 1.1 in Guidelines section.**
+
 ## Prerequisites
 1. The jar file is created with JDK 11. So to run it, make sure you have the same or higher version of jre installed.
    To check the java version, run the following command in command prompt/terminal.
