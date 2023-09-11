@@ -7,12 +7,12 @@ This repo contains a simple web server I made with java from scratch without usi
 1. The jar file is created with JDK 11. So to run it, make sure you have the same or higher version of jre installed.
    To check the java version, run the following command in command prompt/terminal.
      - ```console
-           java -version.
+       java -version.
        ```
 2. You should have php-cgi installed in your system. To check it, type the following command.
 
    - ```console
-            php-cgi -v
+     php-cgi -v
      ```
 **If you don't have any of the above, install them before running the program.**
 
@@ -25,11 +25,11 @@ Do the following steps to run the program.
    ```
    **Make sure htdocs, icons and Webserver.jar are in the same folder.**
 3. The server is listening on the port 2728. So in the address-bar, enter the following url.
-   - [localhost:2728](http://localhost:2728)  
+   [localhost:2728](http://localhost:2728)  
    **You can change the port the server is listening by changing the port in the following line in Main.java**  
      ```java
-            int port = 2728;
-     ```
+   int port = 2728;
+   ```
 4. You can edit the html, css, js, php files in the htdocs folder.
 5. If you have any other html, css, js, php files, you should add them to the htdocs folder.
 6. You can change the icon shown in the tab of your web browser by changing the icon in the icons folder.  
